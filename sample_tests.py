@@ -22,3 +22,5 @@ class SampleTests(unittest.TestCase):
     def test_one_letter(self):
         result = self.code.create_code("aaaaa")
         self.assertEqual(result, LeafNode("a", 5))
+       
+unittest.main()

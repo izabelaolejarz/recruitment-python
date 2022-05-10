@@ -1,7 +1,8 @@
 from typing import Optional
 
-from tree import Node
+from tree import InnerNode, LeafNode, Node
 
+from collections import Counter
 
 class Code:
     """
@@ -33,4 +34,21 @@ class Code:
         All the auxiliary classes for building the tree are provided (see tree.py) and should not be modified.
     """
     def create_code(self, text: str) -> Optional[Node]:
-        raise NotImplementedError
+        
+        if len(text) == 0: 
+            raise ValueError("Text value is empty")
+        nodes = []
+        cnt = Counter()
+        for character in text:
+            if not character.isalpha():
+                raise ValueError("Invalid character in text")
+            cnt[character] += 1
+
+        for obj in cnt:
+            nodes.append(LeafNode(obj, cnt[obj]))
+
+        while len(nodes) > 1:
+            nodes.sort(key=lambda x: x, reverse=True)
+            nodes.append(InnerNode(nodes.pop(len(nodes)-1), nodes.pop(len(nodes)-1)))
+
+        return nodes.pop(len(nodes)-1)
